@@ -4,11 +4,10 @@ class Pol {
             'restitution':0.8,
             'friction':1.0,
             'density':1.0,
-            'isStatic':false
         }
         this.body = Bodies.circle(x, y,radius,options);
          this.radius=radius;
-         this.image=loadImage("sprites/polygon.png");
+         this.image=loadImage("polygon.png");
         World.add(world, this.body);
       }
       display(){

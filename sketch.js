@@ -3,9 +3,9 @@ const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 var engine, world; 
-
+var gameState="onsling";
 function preload(){
- // polygon_img=loadImage("sprites/polygon.png");
+//  polygon_img=loadImage("polygon.png");
 }
 function setup() {
   createCanvas(900,500);
@@ -18,12 +18,19 @@ function setup() {
   // Poly=Bodies.circle(200,200,10,options);
   // World.add(world,Poly);
 
-  Poly=new Pol(100,250,50);
+  Poly=new Pol(100,250,40);
 
 //  console.log(polygon);
   ground1 = new Ground(310,376,220,10);
   ground2 = new Ground(600,276,160,10);
   basement=new Ground(400,height,1000,20);
+
+  // options_pol={
+  //   isStatic:false
+  // }
+  // pol=Bodies.circle(100,200,50,options_pol);
+  // World.add(world,pol);
+
   
   slingShot=new Slingshot(Poly.body,{x:100,y:250});
 
@@ -65,13 +72,33 @@ function setup() {
 
    // level Four
    block16=new Box(310,230,30,40);
+if(gameState==="onlsing"){
+      textSize(20);
+      text("Drag the Hexagonal Stone and Release it , to launch it towards the blocks",100,100);
+  }
+  else if(gameState==="onfly"){
+     textSize(20);
+   text("Press space bar to reset",100,200);
+  }
+  
  // createSprite(400, 200, 50, 50);
+ Engine.run(engine);
 }
 
 function draw() {
-  background(255); 
-  // imageMode(CENTER);
-  // image(polygon_img,50,250,40,40);
+   Engine.update(engine);
+   background(rgb(55,43,43));
+    textSize(20);
+    fill("white");
+    text("Drag the Hexagonal Stone and Release it , to launch it towards the blocks",100,100);
+    textSize(20);
+    text("Press \"Space\" bar to reset",600,450);
+  // push();
+  // translate(100,250);
+  // rotate(Matter.Body.angle);
+  //  imageMode(CENTER);
+  //  image(polygon_img,0,0,40,40);
+  //  pop();
   ground1.display(); 
   ground2.display(); 
   basement.display();
@@ -122,9 +149,22 @@ function draw() {
 }
 
 function mouseDragged(){
-  Matter.Body.setPosition(Poly.body,{x:mouseX,y:mouseY});
+  // if(gameState=="onsling"){
+      Matter.Body.setPosition(Poly.body,{x:mouseX,y:mouseY});
+//  }
 }
 
 function mouseReleased(){
+ // gameState="onfly";
   slingShot.fly();
+  // if(gameState!="onfly")
+  //    slingShot.attach(Poly.body);
+  //   gameState="onsling";
+}
+function keyPressed(){
+  if(keyCode===32){
+   // gameState="onsling";
+   Matter.Body.setPosition(Poly.body,{x:100,y:250});
+    slingShot.attach(Poly.body);
+  }
 }
